@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Ordrotation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#ECEAE2; --surface:#FAF8F3; --surface-2:#F0EEE8;
+  --ink:#252320; --muted:#7A756E; --border:#D9D5C6;
+  --verb:#7A2F22; --verb-t:#F2E0DC;
+  --noun:#385240; --noun-t:#DDE9E1;
+  --adj:#34526A;  --adj-t:#DCE8F0;
+  --adv:#7A4E0A;  --adv-t:#F0E5CC;
+  --conj:#5E3D54; --conj-t:#EAE0E7;
+  --phrase:#235953; --phrase-t:#DAE8E6;
+  --radius:20px;
+  --font-d:'Space Grotesk',system-ui,sans-serif;
+  --font-b:'Inter',system-ui,sans-serif;
+  --font-m:'JetBrains Mono',monospace;
+  --safe-bottom:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{font-family:var(--font-b);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;}
+.app{display:flex;flex-direction:column;min-height:100dvh;max-width:520px;margin:0 auto;padding:0 16px calc(28px + var(--safe-bottom));}
+.header{display:flex;justify-content:space-between;align-items:flex-end;padding:22px 0 14px;}
+.brand h1{font-family:var(--font-d);font-weight:600;font-size:clamp(20px,5vw,26px);letter-spacing:-0.01em;line-height:1;}
+.brand p{font-size:12px;color:var(--muted);margin-top:3px;}
+.streak{font-family:var(--font-m);font-size:12px;color:var(--muted);text-align:right;line-height:1.5;white-space:nowrap;}
+.streak b{color:var(--ink);font-size:15px;display:block;}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+.chip{font-family:var(--font-b);font-size:12.5px;font-weight:500;padding:7px 13px;border-radius:999px;border:1.5px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;min-height:36px;display:flex;align-items:center;-webkit-tap-highlight-color:transparent;}
+.controls{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+select{font-family:var(--font-b);font-size:13px;padding:0 10px;height:42px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface);color:var(--ink);flex:1;min-width:120px;cursor:pointer;}
+.start-btn{font-family:var(--font-b);font-weight:600;font-size:13px;height:42px;padding:0 20px;border-radius:12px;border:none;background:var(--ink);color:var(--surface);cursor:pointer;flex-shrink:0;-webkit-tap-highlight-color:transparent;}
+.start-btn:active{opacity:0.82;}
+.progress-line{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);font-family:var(--font-m);margin-bottom:8px;}
+.card-zone{perspective:1200px;margin-bottom:12px;}
+.card{position:relative;width:100%;min-height:clamp(220px,45vw,280px);transition:transform .42s cubic-bezier(.2,.8,.2,1);transform-style:preserve-3d;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.card.flip{transform:rotateY(180deg);}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:var(--radius);border:1.5px solid var(--border);background:var(--surface);padding:18px 20px;display:flex;flex-direction:column;}
+.face.back{transform:rotateY(180deg);}
+.tag{font-family:var(--font-m);font-size:10.5px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;display:inline-block;padding:3px 8px;border-radius:6px;width:fit-content;}
+.word{font-family:var(--font-d);font-weight:600;font-size:clamp(22px,5.5vw,28px);margin:14px 0 5px;line-height:1.2;overflow-wrap:break-word;}
+.word-sub{font-size:13px;color:var(--muted);}
+.forms{font-family:var(--font-m);font-size:13px;margin-top:12px;line-height:1.7;color:var(--ink);}
+.gender-badge{display:inline-block;font-family:var(--font-m);font-size:10px;background:var(--surface-2);border-radius:5px;padding:2px 6px;margin-left:7px;color:var(--muted);vertical-align:middle;}
+.example{font-size:12px;color:var(--muted);margin-top:auto;padding-top:10px;font-style:italic;line-height:1.5;}
+.flip-hint{margin-top:auto;font-size:11px;color:var(--muted);text-align:center;padding-top:8px;}
+.grade{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px;}
+.grade-btn{font-family:var(--font-b);font-weight:600;font-size:14px;height:52px;border-radius:14px;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.grade-btn:disabled{opacity:0.3;cursor:default;}
+.grade-btn:not(:disabled):active{opacity:0.75;}
+.grade-btn.bad{color:var(--verb);}
+.grade-btn.good{color:var(--noun);}
+.summary{text-align:center;padding:32px 12px;}
+.summary h2{font-family:var(--font-d);font-size:20px;margin-bottom:6px;}
+.summary p{font-size:14px;color:var(--muted);}
+.empty{font-size:13.5px;color:var(--muted);background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:20px;text-align:center;margin-bottom:16px;}
+.weekly{margin-top:20px;border:1.5px dashed var(--border);border-radius:var(--radius);padding:16px;background:var(--surface);}
+.weekly-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px;}
+.weekly-head h3{font-family:var(--font-d);font-size:13.5px;font-weight:600;}
+.shuffle-btn{font-family:var(--font-b);font-size:12px;color:var(--muted);background:none;border:none;cursor:pointer;text-decoration:underline;padding:0;white-space:nowrap;-webkit-tap-highlight-color:transparent;}
+.focus-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 0;border-top:1px solid var(--border);}
+.focus-row:first-of-type{border-top:none;}
+.focus-word{font-family:var(--font-d);font-weight:600;font-size:16px;overflow-wrap:break-word;}
+.focus-en{font-size:12px;color:var(--muted);margin-top:2px;}
+.use-btn{font-family:var(--font-b);font-size:12px;font-weight:600;padding:0 12px;height:36px;border-radius:10px;border:1.5px solid var(--border);background:var(--surface-2);cursor:pointer;white-space:nowrap;flex-shrink:0;-webkit-tap-highlight-color:transparent;}
+.use-btn:disabled{opacity:0.4;cursor:default;}
+.use-btn:not(:disabled):active{opacity:0.7;}
+footer{margin-top:20px;display:flex;justify-content:space-between;align-items:center;font-size:11.5px;color:var(--muted);flex-wrap:wrap;gap:6px;}
+footer button{font-family:var(--font-b);font-size:11.5px;color:var(--muted);background:none;border:none;cursor:pointer;text-decoration:underline;padding:0;}
+.hidden{display:none!important;}
+@media(prefers-reduced-motion:reduce){.card{transition:none;}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <div class="brand">
+      <h1>Ordrotation</h1>
+      <p>word rotation · your lesson vocabulary</p>
+    </div>
+    <div class="streak" id="streakBox"><b>–</b>day streak</div>
+  </header>
+
+  <div class="chips" id="chips" role="group" aria-label="Filter by word type"></div>
+
+  <div class="controls">
+    <select id="dirSel" aria-label="Card direction">
+      <option value="en-sv">English → Swedish</option>
+      <option value="sv-en">Swedish → English</option>
+    </select>
+    <select id="sizeSel" aria-label="Session size">
+      <option value="8">8 cards</option>
+      <option value="10" selected>10 cards</option>
+      <option value="15">15 cards</option>
+      <option value="20">20 cards</option>
+    </select>
+    <button class="start-btn" id="startBtn">Start session</button>
+  </div>
+
+  <div id="emptyState" class="empty hidden">No words found in this deck.</div>
+
+  <div id="stage" class="hidden">
+    <div class="progress-line">
+      <span id="progText"></span>
+      <span id="deckLabel"></span>
+    </div>
+    <div class="card-zone">
+      <div class="card" id="card" tabindex="0" role="button" aria-label="Flashcard — tap to flip">
+        <div class="face front" id="faceFront"></div>
+        <div class="face back"  id="faceBack"></div>
+      </div>
+    </div>
+    <div class="grade">
+      <button class="grade-btn bad"  id="badBtn"  disabled>Still learning</button>
+      <button class="grade-btn good" id="goodBtn" disabled>Got it</button>
+    </div>
+  </div>
+
+  <div id="summary" class="summary hidden"></div>
+
+  <div class="weekly">
+    <div class="weekly-head">
+      <h3>This week's conversation focus</h3>
+      <button class="shuffle-btn" id="shuffleBtn">pick different words</button>
+    </div>
+    <div class="focus-row">
+      <div>
+        <div class="focus-word" id="focusVerb"   style="color:var(--verb)"></div>
+        <div class="focus-en"   id="focusVerbEn"></div>
+      </div>
+      <button class="use-btn" id="useVerbBtn">–</button>
+    </div>
+    <div class="focus-row">
+      <div>
+        <div class="focus-word" id="focusPhrase"   style="color:var(--phrase)"></div>
+        <div class="focus-en"   id="focusPhraseEn"></div>
+      </div>
+      <button class="use-btn" id="usePhraseBtn">–</button>
+    </div>
+  </div>
+
+  <footer>
+    <span>Progress saved in this browser.</span>
+    <button id="resetBtn">Reset all progress</button>
+  </footer>
+</div>
+
+<!-- ── word library ── edit words.js to add or remove vocabulary -->
+<script src="words.js"></script>
+
+<script>
+(function(){
+'use strict';
+const DECKS={
+  verb:  {label:'Verbs',       color:'var(--verb)',  tint:'var(--verb-t)' },
+  noun:  {label:'Nouns',       color:'var(--noun)',  tint:'var(--noun-t)' },
+  adj:   {label:'Adjectives',  color:'var(--adj)',   tint:'var(--adj-t)'  },
+  adv:   {label:'Adverbs',     color:'var(--adv)',   tint:'var(--adv-t)'  },
+  conj:  {label:'Conjunctions',color:'var(--conj)',  tint:'var(--conj-t)' },
+  phrase:{label:'Phrases',     color:'var(--phrase)',tint:'var(--phrase-t)'},
+};
+function buildAll(){
+  const a=[];
+  WORDS.verbs.forEach(([sv,pres,past,sup,en])=>a.push({id:'verb:'+sv,deck:'verb',sv,en,forms:pres+' · '+past+' · '+sup}));
+  WORDS.nouns.forEach(([sv,gender,defSg,indefPl,defPl,en])=>{
+    const forms=indefPl==='–'?defSg:defSg+' · '+indefPl+' · '+defPl;
+    a.push({id:'noun:'+sv+gender,deck:'noun',sv,en,gender,forms});
+  });
+  WORDS.adj.forEach(([sv,neut,plur,comp,sup,en])=>{
+    const forms=comp==='–'?neut+' · '+plur:neut+' · '+plur+' · '+comp+' · '+sup;
+    a.push({id:'adj:'+sv,deck:'adj',sv,en,forms});
+  });
+  WORDS.adv.forEach(([sv,en])=>a.push({id:'adv:'+sv,deck:'adv',sv,en}));
+  WORDS.conj.forEach(([cat,sv,en,ex],i)=>a.push({id:'conj:'+sv+i,deck:'conj',sv,en,note:cat,example:ex}));
+  WORDS.phrases.forEach(([sv,en,ex])=>a.push({id:'phrase:'+sv,deck:'phrase',sv,en,example:ex}));
+  return a;
+}
+const ALL=buildAll();
+const INTERVALS=[0,1,3,7,14];
+let progress={},streak={},weeklyFocus=null,queue=[],qIndex=0,flipped=false,results={good:0,bad:0},activeDeck='all',resetArmed=false;
+
+const store={
+  get(k){try{const v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch{return null;}},
+  set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch{}},
+};
+const $=id=>document.getElementById(id);
+const show=id=>$(id).classList.remove('hidden');
+const hide=id=>$(id).classList.add('hidden');
+const epochDay=()=>Math.floor(Date.now()/86400000);
+function weekKey(){const d=new Date();const j=new Date(d.getFullYear(),0,1);return d.getFullYear()+'-W'+Math.ceil((((d-j)/86400000)+j.getDay()+1)/7);}
+function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function dueCards(dk){const t=epochDay();return ALL.filter(c=>dk==='all'||c.deck===dk).filter(c=>{const p=progress[c.id];return!p||p.due<=t;});}
+
+function renderChips(){
+  const el=$('chips');
+  const list=[['all','All','var(--ink)','var(--surface-2)'],...Object.entries(DECKS).map(([k,v])=>[k,v.label,v.color,v.tint])];
+  el.innerHTML='';
+  list.forEach(([key,label,color,tint])=>{
+    const b=document.createElement('button');
+    b.className='chip'+(activeDeck===key?' active':'');
+    b.textContent=label;
+    if(activeDeck===key){b.style.background=tint;b.style.color=color;b.style.borderColor=color;}
+    b.addEventListener('click',()=>{activeDeck=key;renderChips();});
+    el.appendChild(b);
+  });
+}
+function touchStreak(){
+  const t=epochDay();
+  if(!streak.lastDay){streak={lastDay:t,count:1};}
+  else if(streak.lastDay===t){}
+  else if(streak.lastDay===t-1){streak.count=(streak.count||0)+1;streak.lastDay=t;}
+  else{streak.count=1;streak.lastDay=t;}
+  store.set('streak',streak);renderStreak();
+}
+function renderStreak(){
+  const c=streak.count||0;
+  $('streakBox').innerHTML=c>0?'<b>'+c+'</b> day streak':'start today';
+}
+function startSession(){
+  const size=parseInt($('sizeSel').value,10);
+  let pool=dueCards(activeDeck);
+  if(pool.length<size){const seen=new Set(pool.map(c=>c.id));pool=pool.concat(shuffle(ALL.filter(c=>(activeDeck==='all'||c.deck===activeDeck)&&!seen.has(c.id))));}
+  if(pool.length===0){show('emptyState');hide('stage');hide('summary');return;}
+  hide('emptyState');hide('summary');
+  queue=shuffle(pool).slice(0,size);qIndex=0;results={good:0,bad:0};
+  show('stage');touchStreak();showCard();
+}
+function showCard(){
+  flipped=false;
+  const cardEl=$('card');cardEl.classList.remove('flip');
+  $('badBtn').disabled=true;$('goodBtn').disabled=true;
+  const c=queue[qIndex];const dir=$('dirSel').value;
+  const {color,tint,label}=DECKS[c.deck];
+  $('progText').textContent='Card '+(qIndex+1)+' of '+queue.length;
+  $('deckLabel').textContent=label;
+  const tag='<span class="tag" style="background:'+tint+';color:'+color+'">'+label+'</span>';
+  const gbadge=c.gender&&c.gender!=='–'?'<span class="gender-badge">'+c.gender+'</span>':'';
+  const forms=c.forms?'<div class="forms">'+c.forms+'</div>':'';
+  const note=c.note?'<p class="word-sub" style="margin-top:10px">'+c.note+'</p>':'';
+  const ex=c.example?'<div class="example">'+c.example+'</div>':'';
+  const hint='<div class="flip-hint">tap to flip</div>';
+  if(dir==='en-sv'){
+    $('faceFront').innerHTML=tag+'<div class="word">'+c.en+'</div><p class="word-sub">Swedish?</p>'+hint;
+    $('faceBack').innerHTML=tag+'<div class="word">'+c.sv+gbadge+'</div>'+forms+note+ex;
+  }else{
+    $('faceFront').innerHTML=tag+'<div class="word">'+c.sv+gbadge+'</div><p class="word-sub">Meaning?</p>'+hint;
+    $('faceBack').innerHTML=tag+'<div class="word">'+c.en+'</div>'+forms+note+ex;
+  }
+}
+function flipCard(){
+  flipped=!flipped;$('card').classList.toggle('flip',flipped);
+  $('badBtn').disabled=!flipped;$('goodBtn').disabled=!flipped;
+}
+function grade(ok){
+  if(!flipped)return;
+  const c=queue[qIndex];const t=epochDay();
+  let p=progress[c.id]||{box:0};
+  p.box=ok?Math.min(p.box+1,4):0;p.due=t+INTERVALS[p.box];
+  progress[c.id]=p;store.set('progress',progress);
+  results[ok?'good':'bad']++;
+  if(++qIndex>=queue.length)showSummary();else showCard();
+}
+function showSummary(){
+  hide('stage');show('summary');
+  $('summary').innerHTML='<h2>Session done</h2><p>'+results.good+' got it · '+results.bad+' still learning</p>';
+}
+function ensureWeeklyFocus(){const wk=weekKey();if(!weeklyFocus||weeklyFocus.week!==wk)pickWeeklyFocus(wk,false);else renderWeekly();}
+function pickWeeklyFocus(wk,manual){
+  const seed=manual?Date.now():parseInt(wk.split('-W')[1],10)+wk.length;
+  const vi=seed%WORDS.verbs.length;const pi=(seed+7)%WORDS.phrases.length;
+  weeklyFocus={week:wk,verb:WORDS.verbs[vi][0],verbEn:WORDS.verbs[vi][4],phrase:WORDS.phrases[pi][0],phraseEn:WORDS.phrases[pi][1],verbUses:0,phraseUses:0};
+  store.set('weeklyFocus',weeklyFocus);renderWeekly();
+}
+function renderWeekly(){
+  $('focusVerb').textContent=weeklyFocus.verb;$('focusVerbEn').textContent=weeklyFocus.verbEn;
+  $('focusPhrase').textContent=weeklyFocus.phrase;$('focusPhraseEn').textContent=weeklyFocus.phraseEn;
+  const vb=$('useVerbBtn');const pb=$('usePhraseBtn');
+  vb.textContent='used it ('+weeklyFocus.verbUses+'/3)';pb.textContent='used it ('+weeklyFocus.phraseUses+'/3)';
+  vb.disabled=weeklyFocus.verbUses>=3;pb.disabled=weeklyFocus.phraseUses>=3;
+}
+$('card').addEventListener('click',flipCard);
+$('card').addEventListener('keydown',e=>{if(e.code==='Space'||e.code==='Enter'){e.preventDefault();flipCard();}});
+$('badBtn').addEventListener('click',()=>grade(false));
+$('goodBtn').addEventListener('click',()=>grade(true));
+$('startBtn').addEventListener('click',startSession);
+$('shuffleBtn').addEventListener('click',()=>pickWeeklyFocus(weekKey(),true));
+$('useVerbBtn').addEventListener('click',()=>{if(weeklyFocus.verbUses<3){weeklyFocus.verbUses++;store.set('weeklyFocus',weeklyFocus);renderWeekly();}});
+$('usePhraseBtn').addEventListener('click',()=>{if(weeklyFocus.phraseUses<3){weeklyFocus.phraseUses++;store.set('weeklyFocus',weeklyFocus);renderWeekly();}});
+$('resetBtn').addEventListener('click',()=>{
+  if(!resetArmed){resetArmed=true;$('resetBtn').textContent='tap again to confirm';setTimeout(()=>{resetArmed=false;$('resetBtn').textContent='Reset all progress';},3500);return;}
+  progress={};store.set('progress',progress);streak={};store.set('streak',streak);weeklyFocus=null;
+  renderStreak();$('resetBtn').textContent='Reset all progress';resetArmed=false;
+});
+(function init(){
+  progress=store.get('progress')||{};streak=store.get('streak')||{};weeklyFocus=store.get('weeklyFocus')||null;
+  renderChips();renderStreak();ensureWeeklyFocus();
+})();
+})();
+</script>
+</body>
+</html>
