@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
-:root {
+:root{
   --bg:#ECEAE2; --surface:#FAF8F3; --surface-2:#F0EEE8;
   --ink:#252320; --muted:#7A756E; --border:#D9D5C6;
   --verb:#7A2F22; --verb-t:#F2E0DC;
@@ -26,19 +26,30 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;}
 body{font-family:var(--font-b);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;}
-.app{display:flex;flex-direction:column;min-height:100dvh;max-width:520px;margin:0 auto;padding:0 16px calc(28px + var(--safe-bottom));}
+
+.app{display:flex;flex-direction:column;max-width:520px;margin:0 auto;padding:0 16px calc(36px + var(--safe-bottom));}
+
+/* header */
 .header{display:flex;justify-content:space-between;align-items:flex-end;padding:22px 0 14px;}
 .brand h1{font-family:var(--font-d);font-weight:600;font-size:clamp(20px,5vw,26px);letter-spacing:-0.01em;line-height:1;}
 .brand p{font-size:12px;color:var(--muted);margin-top:3px;}
 .streak{font-family:var(--font-m);font-size:12px;color:var(--muted);text-align:right;line-height:1.5;white-space:nowrap;}
 .streak b{color:var(--ink);font-size:15px;display:block;}
+
+/* chips */
 .chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
 .chip{font-family:var(--font-b);font-size:12.5px;font-weight:500;padding:7px 13px;border-radius:999px;border:1.5px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;min-height:36px;display:flex;align-items:center;-webkit-tap-highlight-color:transparent;}
+
+/* controls */
 .controls{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
 select{font-family:var(--font-b);font-size:13px;padding:0 10px;height:42px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface);color:var(--ink);flex:1;min-width:120px;cursor:pointer;}
 .start-btn{font-family:var(--font-b);font-weight:600;font-size:13px;height:42px;padding:0 20px;border-radius:12px;border:none;background:var(--ink);color:var(--surface);cursor:pointer;flex-shrink:0;-webkit-tap-highlight-color:transparent;}
 .start-btn:active{opacity:0.82;}
+
+/* progress */
 .progress-line{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);font-family:var(--font-m);margin-bottom:8px;}
+
+/* flip card */
 .card-zone{perspective:1200px;margin-bottom:12px;}
 .card{position:relative;width:100%;min-height:clamp(220px,45vw,280px);transition:transform .42s cubic-bezier(.2,.8,.2,1);transform-style:preserve-3d;cursor:pointer;-webkit-tap-highlight-color:transparent;}
 .card.flip{transform:rotateY(180deg);}
@@ -49,18 +60,24 @@ select{font-family:var(--font-b);font-size:13px;padding:0 10px;height:42px;borde
 .word-sub{font-size:13px;color:var(--muted);}
 .forms{font-family:var(--font-m);font-size:13px;margin-top:12px;line-height:1.7;color:var(--ink);}
 .gender-badge{display:inline-block;font-family:var(--font-m);font-size:10px;background:var(--surface-2);border-radius:5px;padding:2px 6px;margin-left:7px;color:var(--muted);vertical-align:middle;}
-.example{font-size:12px;color:var(--muted);margin-top:auto;padding-top:10px;font-style:italic;line-height:1.5;}
+.card-example{font-size:12px;color:var(--muted);margin-top:auto;padding-top:10px;font-style:italic;line-height:1.5;}
 .flip-hint{margin-top:auto;font-size:11px;color:var(--muted);text-align:center;padding-top:8px;}
+
+/* grade */
 .grade{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px;}
 .grade-btn{font-family:var(--font-b);font-weight:600;font-size:14px;height:52px;border-radius:14px;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;-webkit-tap-highlight-color:transparent;}
 .grade-btn:disabled{opacity:0.3;cursor:default;}
 .grade-btn:not(:disabled):active{opacity:0.75;}
 .grade-btn.bad{color:var(--verb);}
 .grade-btn.good{color:var(--noun);}
+
+/* summary + empty */
 .summary{text-align:center;padding:32px 12px;}
 .summary h2{font-family:var(--font-d);font-size:20px;margin-bottom:6px;}
 .summary p{font-size:14px;color:var(--muted);}
 .empty{font-size:13.5px;color:var(--muted);background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:20px;text-align:center;margin-bottom:16px;}
+
+/* weekly tracker */
 .weekly{margin-top:20px;border:1.5px dashed var(--border);border-radius:var(--radius);padding:16px;background:var(--surface);}
 .weekly-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px;}
 .weekly-head h3{font-family:var(--font-d);font-size:13.5px;font-weight:600;}
@@ -72,14 +89,81 @@ select{font-family:var(--font-b);font-size:13px;padding:0 10px;height:42px;borde
 .use-btn{font-family:var(--font-b);font-size:12px;font-weight:600;padding:0 12px;height:36px;border-radius:10px;border:1.5px solid var(--border);background:var(--surface-2);cursor:pointer;white-space:nowrap;flex-shrink:0;-webkit-tap-highlight-color:transparent;}
 .use-btn:disabled{opacity:0.4;cursor:default;}
 .use-btn:not(:disabled):active{opacity:0.7;}
+
+/* sentence practice */
+.practice{margin-top:14px;padding-top:14px;border-top:1px solid var(--border);}
+.practice-prompt{font-size:13px;color:var(--muted);margin-bottom:8px;line-height:1.5;}
+.practice-prompt strong{color:var(--ink);}
+textarea{width:100%;font-family:var(--font-b);font-size:14px;padding:11px 13px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface-2);color:var(--ink);resize:none;height:80px;line-height:1.5;-webkit-appearance:none;}
+textarea:focus{outline:none;border-color:var(--ink);}
+.practice-controls{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;}
+.feedback-btn{font-family:var(--font-b);font-weight:600;font-size:13px;height:40px;padding:0 16px;border-radius:11px;border:none;background:var(--ink);color:var(--surface);cursor:pointer;flex:1;-webkit-tap-highlight-color:transparent;}
+.feedback-btn:disabled{opacity:0.45;cursor:default;}
+.key-toggle-btn{font-family:var(--font-b);font-size:12px;color:var(--muted);background:none;border:1.5px solid var(--border);border-radius:11px;padding:0 12px;height:40px;cursor:pointer;white-space:nowrap;-webkit-tap-highlight-color:transparent;}
+.key-area{margin-top:10px;padding:12px;border-radius:12px;background:var(--surface-2);border:1.5px solid var(--border);}
+.key-area p{font-size:12px;color:var(--muted);margin-bottom:8px;line-height:1.5;}
+.key-area a{color:var(--adj);}
+.key-row{display:flex;gap:8px;}
+.key-input{flex:1;font-family:var(--font-m);font-size:12px;padding:0 10px;height:36px;border-radius:9px;border:1.5px solid var(--border);background:var(--surface);color:var(--ink);}
+.key-save{font-family:var(--font-b);font-weight:600;font-size:12px;padding:0 14px;height:36px;border-radius:9px;border:none;background:var(--ink);color:var(--surface);cursor:pointer;}
+.feedback-box{margin-top:10px;padding:13px 14px;border-radius:13px;border:1.5px solid var(--border);background:var(--surface);font-size:13.5px;line-height:1.65;white-space:pre-wrap;}
+.feedback-box.loading{color:var(--muted);}
+.feedback-box.error{border-color:var(--verb-t);background:var(--verb-t);color:var(--verb);}
+
+/* collapsible section shell */
+.panel{margin-top:20px;border-radius:var(--radius);border:1.5px solid var(--border);background:var(--surface);overflow:hidden;}
+.panel-toggle{display:flex;justify-content:space-between;align-items:center;padding:15px 16px;cursor:pointer;-webkit-tap-highlight-color:transparent;min-height:52px;gap:8px;}
+.panel-toggle h3{font-family:var(--font-d);font-size:14px;font-weight:600;}
+.chevron{font-size:18px;color:var(--muted);transition:transform .25s;flex-shrink:0;line-height:1;}
+.panel-toggle.open .chevron{transform:rotate(90deg);}
+.panel-body{display:none;padding:0 16px 16px;}
+.panel-body.open{display:block;}
+
+/* grammar rule */
+.rule-short{font-size:13px;color:var(--muted);line-height:1.55;margin-bottom:12px;}
+.rule-list{list-style:none;margin-bottom:12px;}
+.rule-list li{font-size:12.5px;padding:4px 0 4px 14px;position:relative;line-height:1.5;}
+.rule-list li::before{content:'·';position:absolute;left:0;color:var(--muted);}
+.rule-examples{width:100%;border-collapse:collapse;margin-bottom:12px;font-size:12.5px;}
+.rule-examples th{font-weight:600;padding:5px 8px 5px 0;border-bottom:1px solid var(--border);text-align:left;}
+.rule-examples td{padding:6px 8px 6px 0;border-bottom:1px solid var(--border);vertical-align:top;}
+.rule-examples td.ex-note{color:var(--muted);font-style:italic;font-size:11.5px;}
+.rule-tip{font-size:12.5px;padding:10px 12px;border-radius:11px;background:var(--surface-2);border-left:3px solid var(--adj);line-height:1.55;margin-bottom:10px;}
+.rule-tip strong{font-weight:600;}
+.rule-mistake{font-size:12px;font-family:var(--font-m);padding:9px 12px;border-radius:10px;background:var(--surface-2);line-height:1.65;}
+.rule-mistake .wrong{color:var(--verb);}
+.rule-mistake .right{color:var(--noun);}
+.rule-nav{display:flex;justify-content:space-between;align-items:center;font-size:11.5px;color:var(--muted);margin-bottom:12px;}
+.rule-nav button{font-family:var(--font-b);font-size:11.5px;color:var(--muted);background:none;border:1.5px solid var(--border);border-radius:8px;padding:4px 10px;cursor:pointer;}
+
+/* pronunciation accordion */
+.pron-item{border-top:1px solid var(--border);}
+.pron-item:first-child{border-top:none;}
+.pron-toggle{display:flex;justify-content:space-between;align-items:center;padding:12px 0;cursor:pointer;-webkit-tap-highlight-color:transparent;gap:8px;min-height:48px;}
+.pron-toggle span{font-size:13px;font-weight:500;}
+.pron-chevron{font-size:16px;color:var(--muted);transition:transform .2s;flex-shrink:0;}
+.pron-toggle.open .pron-chevron{transform:rotate(90deg);}
+.pron-body{display:none;padding-bottom:14px;}
+.pron-body.open{display:block;}
+.pron-intro{font-size:12.5px;color:var(--muted);line-height:1.6;margin-bottom:12px;}
+.pron-entry{margin-bottom:10px;padding:10px 12px;border-radius:11px;background:var(--surface-2);}
+.pron-label{font-family:var(--font-d);font-weight:600;font-size:14px;margin-bottom:4px;}
+.pron-desc{font-size:12.5px;line-height:1.6;margin-bottom:6px;}
+.pron-exlist{list-style:none;}
+.pron-exlist li{font-family:var(--font-m);font-size:11.5px;padding:2px 0;color:var(--muted);}
+.pron-exlist li::before{content:'→ ';}
+
+/* footer */
 footer{margin-top:20px;display:flex;justify-content:space-between;align-items:center;font-size:11.5px;color:var(--muted);flex-wrap:wrap;gap:6px;}
 footer button{font-family:var(--font-b);font-size:11.5px;color:var(--muted);background:none;border:none;cursor:pointer;text-decoration:underline;padding:0;}
+
 .hidden{display:none!important;}
-@media(prefers-reduced-motion:reduce){.card{transition:none;}}
+@media(prefers-reduced-motion:reduce){.card,.chevron,.pron-chevron{transition:none;}}
 </style>
 </head>
 <body>
 <div class="app">
+
   <header class="header">
     <div class="brand">
       <h1>Ordrotation</h1>
@@ -125,6 +209,7 @@ footer button{font-family:var(--font-b);font-size:11.5px;color:var(--muted);back
 
   <div id="summary" class="summary hidden"></div>
 
+  <!-- Weekly focus + sentence practice -->
   <div class="weekly">
     <div class="weekly-head">
       <h3>This week's conversation focus</h3>
@@ -144,6 +229,43 @@ footer button{font-family:var(--font-b);font-size:11.5px;color:var(--muted);back
       </div>
       <button class="use-btn" id="usePhraseBtn">–</button>
     </div>
+
+    <!-- Sentence practice -->
+    <div class="practice">
+      <p class="practice-prompt">Write a sentence using <strong id="practiceTarget">this week's words</strong>:</p>
+      <textarea id="practiceInput" placeholder="Skriv en mening här..." rows="3"></textarea>
+      <div class="practice-controls">
+        <button class="feedback-btn" id="feedbackBtn">Get feedback</button>
+        <button class="key-toggle-btn" id="keyToggleBtn">API key</button>
+      </div>
+      <div id="keyArea" class="key-area hidden">
+        <p>Enter your Anthropic API key to enable AI feedback. Stored only in this browser.<br>
+          Get one at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a></p>
+        <div class="key-row">
+          <input class="key-input" type="password" id="keyInput" placeholder="sk-ant-api03-…">
+          <button class="key-save" id="keySaveBtn">Save</button>
+        </div>
+      </div>
+      <div id="feedbackBox" class="feedback-box hidden"></div>
+    </div>
+  </div>
+
+  <!-- Grammar rule of the week -->
+  <div class="panel" id="grammarPanel">
+    <div class="panel-toggle" id="grammarToggle">
+      <h3>Grammar rule of the week</h3>
+      <span class="chevron">›</span>
+    </div>
+    <div class="panel-body" id="grammarBody"></div>
+  </div>
+
+  <!-- Pronunciation guide -->
+  <div class="panel" id="pronPanel">
+    <div class="panel-toggle" id="pronToggle">
+      <h3>Pronunciation guide</h3>
+      <span class="chevron">›</span>
+    </div>
+    <div class="panel-body" id="pronBody"></div>
   </div>
 
   <footer>
@@ -152,12 +274,13 @@ footer button{font-family:var(--font-b);font-size:11.5px;color:var(--muted);back
   </footer>
 </div>
 
-<!-- ── word library ── edit words.js to add or remove vocabulary -->
 <script src="words.js"></script>
-
+<script src="content.js"></script>
 <script>
 (function(){
 'use strict';
+
+/* ── deck config ── */
 const DECKS={
   verb:  {label:'Verbs',       color:'var(--verb)',  tint:'var(--verb-t)' },
   noun:  {label:'Nouns',       color:'var(--noun)',  tint:'var(--noun-t)' },
@@ -166,6 +289,8 @@ const DECKS={
   conj:  {label:'Conjunctions',color:'var(--conj)',  tint:'var(--conj-t)' },
   phrase:{label:'Phrases',     color:'var(--phrase)',tint:'var(--phrase-t)'},
 };
+
+/* ── build card objects from WORDS ── */
 function buildAll(){
   const a=[];
   WORDS.verbs.forEach(([sv,pres,past,sup,en])=>a.push({id:'verb:'+sv,deck:'verb',sv,en,forms:pres+' · '+past+' · '+sup}));
@@ -184,11 +309,21 @@ function buildAll(){
 }
 const ALL=buildAll();
 const INTERVALS=[0,1,3,7,14];
-let progress={},streak={},weeklyFocus=null,queue=[],qIndex=0,flipped=false,results={good:0,bad:0},activeDeck='all',resetArmed=false;
 
+/* ── state ── */
+let progress={},streak={},weeklyFocus=null;
+let queue=[],qIndex=0,flipped=false,results={good:0,bad:0};
+let activeDeck='all',resetArmed=false;
+let grammarIndex=0;
+
+/* ── storage ── */
 const store={
   get(k){try{const v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch{return null;}},
   set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch{}},
+  raw:{
+    get(k){try{return localStorage.getItem(k)||'';}catch{return '';}},
+    set(k,v){try{localStorage.setItem(k,v);}catch{}},
+  }
 };
 const $=id=>document.getElementById(id);
 const show=id=>$(id).classList.remove('hidden');
@@ -198,6 +333,7 @@ function weekKey(){const d=new Date();const j=new Date(d.getFullYear(),0,1);retu
 function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 function dueCards(dk){const t=epochDay();return ALL.filter(c=>dk==='all'||c.deck===dk).filter(c=>{const p=progress[c.id];return!p||p.due<=t;});}
 
+/* ── chips ── */
 function renderChips(){
   const el=$('chips');
   const list=[['all','All','var(--ink)','var(--surface-2)'],...Object.entries(DECKS).map(([k,v])=>[k,v.label,v.color,v.tint])];
@@ -211,6 +347,8 @@ function renderChips(){
     el.appendChild(b);
   });
 }
+
+/* ── streak ── */
 function touchStreak(){
   const t=epochDay();
   if(!streak.lastDay){streak={lastDay:t,count:1};}
@@ -223,6 +361,8 @@ function renderStreak(){
   const c=streak.count||0;
   $('streakBox').innerHTML=c>0?'<b>'+c+'</b> day streak':'start today';
 }
+
+/* ── flashcard session ── */
 function startSession(){
   const size=parseInt($('sizeSel').value,10);
   let pool=dueCards(activeDeck);
@@ -234,23 +374,23 @@ function startSession(){
 }
 function showCard(){
   flipped=false;
-  const cardEl=$('card');cardEl.classList.remove('flip');
+  $('card').classList.remove('flip');
   $('badBtn').disabled=true;$('goodBtn').disabled=true;
   const c=queue[qIndex];const dir=$('dirSel').value;
   const {color,tint,label}=DECKS[c.deck];
   $('progText').textContent='Card '+(qIndex+1)+' of '+queue.length;
   $('deckLabel').textContent=label;
   const tag='<span class="tag" style="background:'+tint+';color:'+color+'">'+label+'</span>';
-  const gbadge=c.gender&&c.gender!=='–'?'<span class="gender-badge">'+c.gender+'</span>':'';
+  const gb=c.gender&&c.gender!=='–'?'<span class="gender-badge">'+c.gender+'</span>':'';
   const forms=c.forms?'<div class="forms">'+c.forms+'</div>':'';
   const note=c.note?'<p class="word-sub" style="margin-top:10px">'+c.note+'</p>':'';
-  const ex=c.example?'<div class="example">'+c.example+'</div>':'';
+  const ex=c.example?'<div class="card-example">'+c.example+'</div>':'';
   const hint='<div class="flip-hint">tap to flip</div>';
   if(dir==='en-sv'){
     $('faceFront').innerHTML=tag+'<div class="word">'+c.en+'</div><p class="word-sub">Swedish?</p>'+hint;
-    $('faceBack').innerHTML=tag+'<div class="word">'+c.sv+gbadge+'</div>'+forms+note+ex;
+    $('faceBack').innerHTML=tag+'<div class="word">'+c.sv+gb+'</div>'+forms+note+ex;
   }else{
-    $('faceFront').innerHTML=tag+'<div class="word">'+c.sv+gbadge+'</div><p class="word-sub">Meaning?</p>'+hint;
+    $('faceFront').innerHTML=tag+'<div class="word">'+c.sv+gb+'</div><p class="word-sub">Meaning?</p>'+hint;
     $('faceBack').innerHTML=tag+'<div class="word">'+c.en+'</div>'+forms+note+ex;
   }
 }
@@ -271,20 +411,128 @@ function showSummary(){
   hide('stage');show('summary');
   $('summary').innerHTML='<h2>Session done</h2><p>'+results.good+' got it · '+results.bad+' still learning</p>';
 }
-function ensureWeeklyFocus(){const wk=weekKey();if(!weeklyFocus||weeklyFocus.week!==wk)pickWeeklyFocus(wk,false);else renderWeekly();}
+
+/* ── weekly focus ── */
+function ensureWeeklyFocus(){
+  const wk=weekKey();
+  if(!weeklyFocus||weeklyFocus.week!==wk)pickWeeklyFocus(wk,false);else renderWeekly();
+}
 function pickWeeklyFocus(wk,manual){
   const seed=manual?Date.now():parseInt(wk.split('-W')[1],10)+wk.length;
   const vi=seed%WORDS.verbs.length;const pi=(seed+7)%WORDS.phrases.length;
-  weeklyFocus={week:wk,verb:WORDS.verbs[vi][0],verbEn:WORDS.verbs[vi][4],phrase:WORDS.phrases[pi][0],phraseEn:WORDS.phrases[pi][1],verbUses:0,phraseUses:0};
+  weeklyFocus={week:wk,verb:WORDS.verbs[vi][0],verbEn:WORDS.verbs[vi][4],
+    phrase:WORDS.phrases[pi][0],phraseEn:WORDS.phrases[pi][1],verbUses:0,phraseUses:0};
   store.set('weeklyFocus',weeklyFocus);renderWeekly();
 }
 function renderWeekly(){
-  $('focusVerb').textContent=weeklyFocus.verb;$('focusVerbEn').textContent=weeklyFocus.verbEn;
-  $('focusPhrase').textContent=weeklyFocus.phrase;$('focusPhraseEn').textContent=weeklyFocus.phraseEn;
-  const vb=$('useVerbBtn');const pb=$('usePhraseBtn');
-  vb.textContent='used it ('+weeklyFocus.verbUses+'/3)';pb.textContent='used it ('+weeklyFocus.phraseUses+'/3)';
-  vb.disabled=weeklyFocus.verbUses>=3;pb.disabled=weeklyFocus.phraseUses>=3;
+  $('focusVerb').textContent=weeklyFocus.verb;
+  $('focusVerbEn').textContent=weeklyFocus.verbEn;
+  $('focusPhrase').textContent=weeklyFocus.phrase;
+  $('focusPhraseEn').textContent=weeklyFocus.phraseEn;
+  $('useVerbBtn').textContent='used it ('+weeklyFocus.verbUses+'/3)';
+  $('usePhraseBtn').textContent='used it ('+weeklyFocus.phraseUses+'/3)';
+  $('useVerbBtn').disabled=weeklyFocus.verbUses>=3;
+  $('usePhraseBtn').disabled=weeklyFocus.phraseUses>=3;
+  $('practiceTarget').textContent=weeklyFocus.verb+' or '+weeklyFocus.phrase;
 }
+
+/* ── sentence feedback via Anthropic API ── */
+async function getFeedback(){
+  const sentence=($('practiceInput').value||'').trim();
+  if(!sentence)return;
+  const apiKey=store.raw.get('apiKey');
+  if(!apiKey){
+    show('keyArea');
+    $('feedbackBox').textContent='Enter your API key above to get feedback.';
+    $('feedbackBox').className='feedback-box';
+    show('feedbackBox');
+    return;
+  }
+  const focusWord=weeklyFocus?weeklyFocus.verb+' ('+weeklyFocus.verbEn+') or '+weeklyFocus.phrase+' ('+weeklyFocus.phraseEn+')':'the focus words';
+  $('feedbackBtn').disabled=true;
+  $('feedbackBox').textContent='Checking your sentence…';
+  $('feedbackBox').className='feedback-box loading';
+  show('feedbackBox');
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-6',
+        max_tokens:400,
+        system:'You are a concise Swedish tutor. The student is an intermediate learner living in Uppsala, aiming for conversational Swedish. They will write a sentence using a given focus word or phrase. Reply in 3-5 sentences: (1) say whether the sentence is correct, (2) fix any grammar errors and briefly explain what was wrong, (3) if correct, suggest a natural variation or extension. Be warm and specific. Use English in your reply.',
+        messages:[{role:'user',content:'Focus word/phrase: '+focusWord+'\n\nMy sentence: '+sentence}]
+      })
+    });
+    if(!res.ok){const e=await res.json();throw new Error(e.error?.message||'API error '+res.status);}
+    const data=await res.json();
+    const text=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('');
+    $('feedbackBox').textContent=text||'No response returned.';
+    $('feedbackBox').className='feedback-box';
+  }catch(e){
+    $('feedbackBox').textContent='Error: '+e.message+'\n\nCheck your API key or try again.';
+    $('feedbackBox').className='feedback-box error';
+  }finally{
+    $('feedbackBtn').disabled=false;
+  }
+}
+
+/* ── grammar rule rendering ── */
+function renderGrammar(idx){
+  const rule=GRAMMAR_RULES[idx];
+  const nav='<div class="rule-nav"><button id="gramPrev">← prev</button><span>Rule '+(idx+1)+' of '+GRAMMAR_RULES.length+'</span><button id="gramNext">next →</button></div>';
+  const ruleItems=rule.rules.map(r=>'<li>'+esc(r)+'</li>').join('');
+  const exRows=rule.examples.map(e=>'<tr><td>'+esc(e.sv)+'</td><td>'+esc(e.en)+'</td><td class="ex-note">'+esc(e.note)+'</td></tr>').join('');
+  $('grammarBody').innerHTML=
+    nav+
+    '<p class="rule-short">'+esc(rule.short)+'</p>'+
+    '<ul class="rule-list">'+ruleItems+'</ul>'+
+    '<table class="rule-examples"><thead><tr><th>Swedish</th><th>English</th><th>Note</th></tr></thead><tbody>'+exRows+'</tbody></table>'+
+    '<p class="rule-tip"><strong>Tip:</strong> '+esc(rule.tip)+'</p>'+
+    '<div class="rule-mistake"><span class="wrong">✗ '+esc(rule.mistake.wrong)+'</span><br><span class="right">✓ '+esc(rule.mistake.right)+'</span></div>';
+  $('gramPrev').addEventListener('click',()=>{grammarIndex=(grammarIndex-1+GRAMMAR_RULES.length)%GRAMMAR_RULES.length;renderGrammar(grammarIndex);});
+  $('gramNext').addEventListener('click',()=>{grammarIndex=(grammarIndex+1)%GRAMMAR_RULES.length;renderGrammar(grammarIndex);});
+}
+function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+/* ── pronunciation rendering ── */
+function renderPronunciation(){
+  $('pronBody').innerHTML=PRONUNCIATION.map((topic,ti)=>{
+    const items=topic.items.map(item=>{
+      const exList=item.ex.map(e=>'<li>'+esc(e)+'</li>').join('');
+      return '<div class="pron-entry"><div class="pron-label">'+esc(item.label)+'</div><p class="pron-desc">'+esc(item.desc)+'</p><ul class="pron-exlist">'+exList+'</ul></div>';
+    }).join('');
+    return '<div class="pron-item">'+
+      '<div class="pron-toggle" data-pron="'+ti+'"><span>'+esc(topic.title)+'</span><span class="pron-chevron">›</span></div>'+
+      '<div class="pron-body" id="pron-body-'+ti+'"><p class="pron-intro">'+esc(topic.intro)+'</p>'+items+'</div>'+
+      '</div>';
+  }).join('');
+  $('pronBody').querySelectorAll('.pron-toggle').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const ti=btn.getAttribute('data-pron');
+      const body=$('pron-body-'+ti);
+      const open=body.classList.toggle('open');
+      btn.classList.toggle('open',open);
+    });
+  });
+}
+
+/* ── collapsible panels ── */
+function setupPanel(toggleId,bodyId){
+  const toggle=$(toggleId);const body=$(bodyId);
+  toggle.addEventListener('click',()=>{
+    const open=body.classList.toggle('open');
+    toggle.classList.toggle('open',open);
+  });
+}
+
+/* ── grammar week index ── */
+function weekGrammarIndex(){
+  const wk=weekKey();const num=parseInt(wk.split('-W')[1],10)||1;
+  return (num-1)%GRAMMAR_RULES.length;
+}
+
+/* ── event listeners ── */
 $('card').addEventListener('click',flipCard);
 $('card').addEventListener('keydown',e=>{if(e.code==='Space'||e.code==='Enter'){e.preventDefault();flipCard();}});
 $('badBtn').addEventListener('click',()=>grade(false));
@@ -293,15 +541,42 @@ $('startBtn').addEventListener('click',startSession);
 $('shuffleBtn').addEventListener('click',()=>pickWeeklyFocus(weekKey(),true));
 $('useVerbBtn').addEventListener('click',()=>{if(weeklyFocus.verbUses<3){weeklyFocus.verbUses++;store.set('weeklyFocus',weeklyFocus);renderWeekly();}});
 $('usePhraseBtn').addEventListener('click',()=>{if(weeklyFocus.phraseUses<3){weeklyFocus.phraseUses++;store.set('weeklyFocus',weeklyFocus);renderWeekly();}});
+
+$('feedbackBtn').addEventListener('click',getFeedback);
+$('practiceInput').addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key==='Enter')getFeedback();});
+
+$('keyToggleBtn').addEventListener('click',()=>{
+  const a=$('keyArea');
+  const showing=a.classList.toggle('hidden');
+  if(!showing)$('keyInput').value=store.raw.get('apiKey');
+});
+$('keySaveBtn').addEventListener('click',()=>{
+  const k=($('keyInput').value||'').trim();
+  if(k){store.raw.set('apiKey',k);hide('keyArea');$('keyToggleBtn').textContent='API key ✓';}
+});
+
 $('resetBtn').addEventListener('click',()=>{
   if(!resetArmed){resetArmed=true;$('resetBtn').textContent='tap again to confirm';setTimeout(()=>{resetArmed=false;$('resetBtn').textContent='Reset all progress';},3500);return;}
   progress={};store.set('progress',progress);streak={};store.set('streak',streak);weeklyFocus=null;
   renderStreak();$('resetBtn').textContent='Reset all progress';resetArmed=false;
 });
+
+/* ── init ── */
 (function init(){
-  progress=store.get('progress')||{};streak=store.get('streak')||{};weeklyFocus=store.get('weeklyFocus')||null;
-  renderChips();renderStreak();ensureWeeklyFocus();
+  progress=store.get('progress')||{};
+  streak=store.get('streak')||{};
+  weeklyFocus=store.get('weeklyFocus')||null;
+  renderChips();
+  renderStreak();
+  ensureWeeklyFocus();
+  grammarIndex=weekGrammarIndex();
+  setupPanel('grammarToggle','grammarBody');
+  renderGrammar(grammarIndex);
+  setupPanel('pronToggle','pronBody');
+  renderPronunciation();
+  if(store.raw.get('apiKey'))$('keyToggleBtn').textContent='API key ✓';
 })();
+
 })();
 </script>
 </body>
